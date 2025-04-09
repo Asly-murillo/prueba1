@@ -9,6 +9,11 @@ Route::get('/prueba/transaccion', function () {
     return view('prueba.transaccion');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/prueba/transaccion', [TransaccionController::class, 'index'])->name('transaccion');
+    Route::post('/transaccion/recargar', [TransaccionController::class, 'recargar'])->name('transaccion.recargar');
+});
+
 
 Route::get('/', function () {
     return view('welcome');

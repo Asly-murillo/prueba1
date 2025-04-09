@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use App\Models\TipoDocumento;
+use App\Models\tipo_documento;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -47,14 +48,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+    
 
     /**
      * Create a new user instance after a valid registration.
@@ -63,26 +57,42 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+    { 
+       
+
+        $validatedData = $request->validate([
+            'tipo_documento_id' => 'required|integer|exists:tipo_documentos,id',
+            'documento'=> 'required|string|max:20|unique:users,documento',
+            'names' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'saldo_ini'=> 'required|numeric|min:0',
             'password' => 'required|string|min:8|confirmed',
         ]);
+        
+
+       
+
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'names' => $request->names, 
+            'apellidos' => $request->apellidos,
+            'email' => $request->email, 
+            'documento' => $request->documento,
+            'saldo_ini' => $request->saldo_ini,
+            'tipo_documento_id' => $request->tipo_documento_id,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        
 
-        return redirect()->route('home')->with('success', 'Registro exitoso');
+        return redirect()->route('login')->with('success', 'Registro exitoso. Inicia sesión.');
+
     }
     public function showRegistrationForm()
     {
-        $tipos_documento = TipoDocumento::all();
+        
+        $tipos_documento = tipo_documento::all();
         return view('auth.register', compact('tipos_documento'));
     }
 }

@@ -1,8 +1,11 @@
 <h1>Transacción</h1>
 
-<div class="saldo">
-    <p>Saldo actual: ${{ number_format($usuario->saldo, 0, ',', '.') }}</p>
-</div>
+@if(isset($usuario))
+    <p>Saldo actual: ${{ number_format($usuario->saldo_ini, 0, ',', '.') }}</p>
+@else
+    <p>No hay usuario autenticado.</p>
+@endif
+
 
 <div class="recarga">
     <h2>Recargar saldo</h2>

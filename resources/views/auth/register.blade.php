@@ -10,6 +10,20 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <div class="row mb-3">
+                            <label for="tipo_documento_id" class="col-md-4 col-form-label text-md-end">Tipo de Documento</label>
+                            <div class="col-md-6">
+                                <select id="tipo_documento_id" class="form-control @error('tipo_documento_id') is-invalid @enderror" name="tipo_documento_id" required>
+                                    <option value="">Seleccione un tipo</option>
+                                    @foreach($tipos_documento as $tipo)
+                                        <option value="{{ $tipo->id }}">{{ $tipo->tipo_documento }}</option>
+                                    @endforeach
+                                </select>
+                                @error('tipo_documento_id')
+                                    <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="row mb-3">
                             <label for="documento" class="col-md-4 col-form-label text-md-end">Documento</label>
@@ -32,24 +46,15 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="primerApell" class="col-md-4 col-form-label text-md-end">Primer Apellido</label>
+                            <label for="apellidos" class="col-md-4 col-form-label text-md-end">Apellidos</label>
                             <div class="col-md-6">
-                                <input id="primerApell" type="text" class="form-control @error('primerApell') is-invalid @enderror" name="primerApell" value="{{ old('primerApell') }}" required>
-                                @error('primerApell')
+                                <input id="apellidos" type="text" class="form-control @error('apellidos') is-invalid @enderror" name="apellidos" value="{{ old('apellidos') }}" required>
+                                @error('apellidos')
                                     <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="segundoApell" class="col-md-4 col-form-label text-md-end">Segundo Apellido</label>
-                            <div class="col-md-6">
-                                <input id="segundoApell" type="text" class="form-control @error('segundoApell') is-invalid @enderror" name="segundoApell" value="{{ old('segundoApell') }}">
-                                @error('segundoApell')
-                                    <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">Correo Electrónico</label>
@@ -71,20 +76,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="tipo_documento_id" class="col-md-4 col-form-label text-md-end">Tipo de Documento</label>
-                            <div class="col-md-6">
-                                <select id="tipo_documento_id" class="form-control @error('tipo_documento_id') is-invalid @enderror" name="tipo_documento_id" required>
-                                    <option value="">Seleccione un tipo</option>
-                                    @foreach($tipos_documento as $tipo)
-                                        <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                @error('tipo_documento_id')
-                                    <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
+                        
 
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">Contraseña</label>
